@@ -23,20 +23,37 @@ namespace Interpreter.Core
 
                 foreach (var scenario in suite.TestScenarios)
                 {
-                    OnEventTriggered(InterpreterEvents.TestScenarioStarted, scenario.Name);
-
-                    foreach (var step in scenario.TestSteps)
+                    if (scenario.State == TestScenarioStates.Run)
                     {
-                        OnEventTriggered(InterpreterEvents.TestStepStarted, step.Command);
+                        ExecuteScenario(scenario);
                     }
-
-                    OnEventTriggered(InterpreterEvents.TestScenarioFinished, scenario.Name);
+                    else
+                    {
+                        OnEventTriggered(InterpreterEvents.TestScenarioSkipped, scenario.Name);
+                    }                                         
                 }
 
                 OnEventTriggered(InterpreterEvents.TestSuiteFinished, suite.Name);
             }
 
             OnEventTriggered(InterpreterEvents.TestScriptFinished);
+        }
+
+        public void ExecuteScenario(TestScenario scenario)
+        {
+            OnEventTriggered(InterpreterEvents.TestScenarioStarted, scenario.Name);
+
+            for (int i = 0; i < scenario.TestSteps.Count; i++)
+            {
+                ExecuteStep(scenario.TestSteps[i], ref i);
+            }
+
+            OnEventTriggered(InterpreterEvents.TestScenarioFinished, scenario.Name);
+        }
+
+        public void ExecuteStep(TestStep step, ref int index)
+        {
+            OnEventTriggered(InterpreterEvents.TestStepStarted, step.Command);
         }
 
         public event EventHandler<InterpreterEventArgs> EventTriggered;
