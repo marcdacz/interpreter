@@ -1,4 +1,4 @@
-﻿namespace Interpreter.Models
+﻿namespace Interpreter.Models.Script
 {
     public class TestStep
     {

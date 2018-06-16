@@ -1,16 +1,19 @@
 using FluentAssertions;
-using Interpreter.Models;
+using Interpreter.Models.Events;
+using Interpreter.Models.Script;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 namespace Interpreter.Core.UnitTests
 {
-    public class TestScriptCreationTests
+    public class TestScriptTests
     {
-        [Fact]
-        public void ShouldBeAbleToCreateTestScript()
+        private TestScript _testScript;
+
+        public TestScriptTests()
         {
             var testStep1 = new TestStep
             {
@@ -53,19 +56,47 @@ namespace Interpreter.Core.UnitTests
             testSuite.TestScenarios.Add(testScenario1);
             testSuite.TestScenarios.Add(testScenario2);
 
-            var testScript = new TestScript
+            _testScript = new TestScript
             {
                 TestSuites = new List<TestSuite>()
             };
 
-            testScript.TestSuites.Add(testSuite);
+            _testScript.TestSuites.Add(testSuite);
+        }
 
-            string serializedScript = JsonConvert.SerializeObject(testScript);
-
+        [Fact]
+        public void ShouldBeAbleToCreateTestScript()
+        {      
+            string serializedScript = JsonConvert.SerializeObject(_testScript);
             var deserializedScript = JsonConvert.DeserializeObject<TestScript>(serializedScript);
-
             deserializedScript.TestSuites.Count.Should().Be(1);
             deserializedScript.TestSuites[0].TestScenarios[0].TestSteps[0].Command.Should().Be("command_1");
+        }
+
+        [Fact]
+        public void ShouldBeAbleToExecuteTestScript()
+        {
+            var scriptRunner = new ScriptInterpreter(_testScript);
+            var receivedEvents = new List<string>();
+
+            scriptRunner.EventTriggered += delegate (object sender, InterpreterEventArgs e)
+            {
+                receivedEvents.Add(Enum.GetName(typeof(InterpreterEvents), e.InterpreterEvent));
+            }; 
+            
+            scriptRunner.ExecuteScript();
+
+            receivedEvents.Where(x => x.Contains(Enum.GetName(typeof(InterpreterEvents), InterpreterEvents.TestScriptStarted)))
+                .ToList().Count().Should().Be(1);
+
+            receivedEvents.Where(x => x.Contains(Enum.GetName(typeof(InterpreterEvents), InterpreterEvents.TestScriptFinished)))
+                .ToList().Count().Should().Be(1);
+
+            receivedEvents.Where(x => x.Contains(Enum.GetName(typeof(InterpreterEvents), InterpreterEvents.TestSuiteStarted)))
+                .ToList().Count().Should().Be(1);
+
+            receivedEvents.Where(x => x.Contains(Enum.GetName(typeof(InterpreterEvents), InterpreterEvents.TestStepStarted)))
+                .ToList().Count().Should().Be(4);
         }
     }
 }
