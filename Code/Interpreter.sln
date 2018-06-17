@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2024
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Interpreter.Core", "Interpreter.Core\Interpreter.Core.csproj", "{A2D55BB5-864F-4DF9-800F-F82E6923084B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Interpreter.Core", "Interpreter.Core\Interpreter.Core.csproj", "{A2D55BB5-864F-4DF9-800F-F82E6923084B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Tests", "1. Tests", "{7D5190D5-1939-4DEA-9C6A-2F646D9421DE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Core", "2. Core", "{B600A3B8-982E-4368-B996-C142479D15B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Interpreter.Models", "Interpreter.Models\Interpreter.Models.csproj", "{CE4A0B89-C7A1-4D28-BC48-A8E188056381}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Interpreter.Models", "Interpreter.Models\Interpreter.Models.csproj", "{CE4A0B89-C7A1-4D28-BC48-A8E188056381}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Interpreter.Core.UnitTests", "Interpreter.Core.UnitTests\Interpreter.Core.UnitTests.csproj", "{BD7EA6BC-95D7-4C6C-93EA-A7556911D34D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Interpreter.Tests", "Interpreter.Core.UnitTests\Interpreter.Tests.csproj", "{BD7EA6BC-95D7-4C6C-93EA-A7556911D34D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

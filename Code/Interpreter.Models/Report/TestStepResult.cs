@@ -4,8 +4,8 @@ using System.Text;
 
 namespace Interpreter.Models.Report
 {
-    public class TestStepResult
+    public class TestStepResult : BaseReportResult
     {
-
+        public object Output { get; set; }
     }
 }
