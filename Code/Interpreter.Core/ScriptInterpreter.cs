@@ -1,6 +1,7 @@
 ﻿using Interpreter.Models.Events;
 using Interpreter.Models.Script;
 using System;
+using System.Collections.Generic;
 
 namespace Interpreter.Core
 {
@@ -25,7 +26,7 @@ namespace Interpreter.Core
                 {
                     if (scenario.State == TestScenarioStates.Run)
                     {
-                        ExecuteScenario(scenario);
+                        ExecuteStepsList(scenario);
                     }
                     else
                     {
@@ -39,16 +40,34 @@ namespace Interpreter.Core
             OnEventTriggered(InterpreterEvents.TestScriptFinished);
         }
 
-        public void ExecuteScenario(TestScenario scenario)
+        public void ExecuteStepsList(BaseTestStepList stepsList, bool isFunction = false)
         {
-            OnEventTriggered(InterpreterEvents.TestScenarioStarted, scenario.Name);
+            var events = StepsListEvents(isFunction);
 
-            for (int i = 0; i < scenario.TestSteps.Count; i++)
+            OnEventTriggered(events[0], stepsList.Name);
+
+            for (int i = 0; i < stepsList.TestSteps.Count; i++)
             {
-                ExecuteStep(scenario.TestSteps[i], ref i);
+                ExecuteStep(stepsList.TestSteps[i], ref i);
             }
 
-            OnEventTriggered(InterpreterEvents.TestScenarioFinished, scenario.Name);
+            OnEventTriggered(events[1], stepsList.Name);
+        }
+
+        public List<InterpreterEvents> StepsListEvents(bool isFunction = false)
+        {
+            var eventsTriggered = new List<InterpreterEvents>();
+            if (isFunction)
+            {
+                eventsTriggered.Add(InterpreterEvents.TestScenarioStarted);
+                eventsTriggered.Add(InterpreterEvents.TestScenarioFinished);
+            }
+            else
+            {
+                eventsTriggered.Add(InterpreterEvents.TestFunctionStarted);
+                eventsTriggered.Add(InterpreterEvents.TestFunctionFinished);
+            }
+            return eventsTriggered;
         }
 
         public void ExecuteStep(TestStep step, ref int index)

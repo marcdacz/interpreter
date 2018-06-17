@@ -56,12 +56,31 @@ namespace Interpreter.Core.UnitTests
             testSuite.TestScenarios.Add(testScenario1);
             testSuite.TestScenarios.Add(testScenario2);
 
+            var testFunction1 = new TestFunction
+            {
+                Name = "Test Scenario 1",
+                TestSteps = new List<TestStep>()
+            };
+            
+            testFunction1.TestSteps.Add(testStep1);
+            testFunction1.TestSteps.Add(testStep2);
+
+            var testFunctionGroup = new TestFunctionGroup
+            {
+                Name = "Test Suite 1",
+                TestFunctions = new List<TestFunction>()
+            };
+
+            testFunctionGroup.TestFunctions.Add(testFunction1);
+
             _testScript = new TestScript
             {
-                TestSuites = new List<TestSuite>()
+                TestSuites = new List<TestSuite>(),
+                TestFunctionGroups = new List<TestFunctionGroup>()
             };
 
             _testScript.TestSuites.Add(testSuite);
+            _testScript.TestFunctionGroups.Add(testFunctionGroup);
         }
 
         [Fact]

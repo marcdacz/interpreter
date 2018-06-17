@@ -2,11 +2,9 @@
 
 namespace Interpreter.Models.Script
 {
-    public class TestScenario
+    public class TestScenario: BaseTestStepList
     {
-        private string _state;
-
-        public long? RowNumber { get; set; }
+        private string _state;        
 
         public string State
         {
@@ -27,10 +25,6 @@ namespace Interpreter.Models.Script
             {
                 _state = value.ToLowerInvariant();
             }
-        }
-
-        public string Name { get; set; }
-
-        public List<TestStep> TestSteps { get; set; }
+        }        
     }
 }
