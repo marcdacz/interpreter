@@ -32,7 +32,7 @@ namespace Interpreter.Core.UnitTests
         }
 
         [Fact]
-        public void ShouldBeAbleToAccessVariablesInCurrentScope()
+        public void ShouldBeAbleToAccessLabelsInCurrentScope()
         {
             _labels = new LabelCollection();
 
@@ -56,7 +56,7 @@ namespace Interpreter.Core.UnitTests
         }
 
         [Fact]
-        public void ShouldBeAbleToClearVariablesOfCurrentScope()
+        public void ShouldBeAbleToClearLabelsOfCurrentScope()
         {
             _labels = new LabelCollection();
 
