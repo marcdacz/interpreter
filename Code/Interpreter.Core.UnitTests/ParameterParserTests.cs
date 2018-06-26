@@ -36,7 +36,16 @@ namespace Interpreter.Tests
             var expression = ParameterParser.Expression.Parse(input);
             expression.Variable.Should().Be(null);
             expression.Parameters[0].Should().Be("A quoted parameter");
-            expression.Parameters[1].Should().Be("Another 'quoted' parameter");
+            expression.Parameters[1].Should().Be("\"Another 'quoted' parameter\"");
+        }
+
+        [Fact]
+        public void ShouldParseParameterWithCommaInQuotesSingleParam()
+        {
+            var input = "\"A quoted, parameter\"";
+            var expression = ParameterParser.Expression.Parse(input);
+            expression.Variable.Should().Be(null);
+            expression.Parameters[0].Should().Be("A quoted, parameter");
         }
 
         [Fact]
@@ -46,7 +55,8 @@ namespace Interpreter.Tests
             var expression = ParameterParser.Expression.Parse(input);
             expression.Variable.Should().Be(null);
             expression.Parameters[0].Should().Be("stringParam");
-            expression.Parameters[1].Should().Be("-12");
+            expression.Parameters[1].Should().Be("");
+            expression.Parameters[2].Should().Be("-12");
         }
     }
 }
